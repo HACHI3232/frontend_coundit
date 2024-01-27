@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Header() {
   return (
     <div>
@@ -8,20 +10,13 @@ export function Header() {
           </a>
           <ul className="nav navbar-nav pull-xs-right">
             <li className="nav-item">
-              {/* Add "active" class when you're on that page" */}
-              <a className="nav-link active" href="/">
-                Home
-              </a>
+              <Link href="/" className="nav-link active">Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/login">
-                Sign in
-              </a>
+              <Link href="/login" className="nav-link">Sign in</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/register">
-                Sign up
-              </a>
+              <Link href="/register" className="nav-link">Sign up</Link>
             </li>
           </ul>
         </div>
