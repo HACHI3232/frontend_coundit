@@ -60,9 +60,6 @@ export default function Article({ article }) {
               <i className="ion-heart" />
               &nbsp; Favorite Post <span className="counter">(29)</span>
             </button>
-            <button className="btn btn-sm btn-outline-secondary">
-              <i className="ion-edit" /> Edit Article
-            </button>
               <EditButton articleId={article.id} />
               <DeleteButton articleId={article.id} onDeleteSuccess={handleDeleteSuccess} />
           </div>
