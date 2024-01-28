@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import axios from "axios";
 import { CustomHead } from "../../components/CustomHead";
 
-
 export default function Editor() {
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -35,7 +34,7 @@ export default function Editor() {
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
             <ul className="error-messages">
-              <li>That title is required</li>
+              {/* <li>That title is required</li> */}
             </ul>
             <form onSubmit={handleSubmit}>
               <fieldset>
