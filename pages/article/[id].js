@@ -2,6 +2,8 @@ import { CustomHead } from "../../components/CustomHead";
 import { Header } from "../../components/Header";
 import axios from "axios";
 import { useRouter } from "next/router";
+import DeleteButton from '../../components/DeleteButton';
+
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -25,6 +27,10 @@ export async function getServerSideProps(context) {
 export default function Article({ article }) {
   console.log(article);
   const router = useRouter();
+  const handleDeleteSuccess = () => {
+    console.log('記事が削除されました');
+    router.push('/'); 
+  };
 
   return (
     <div className="article-page">
@@ -55,9 +61,7 @@ export default function Article({ article }) {
             <button className="btn btn-sm btn-outline-secondary">
               <i className="ion-edit" /> Edit Article
             </button>
-            <button className="btn btn-sm btn-outline-danger">
-              <i className="ion-trash-a" /> Delete Article
-            </button>
+              <DeleteButton articleId={article.id} onDeleteSuccess={handleDeleteSuccess} />
           </div>
         </div>
       </div>
