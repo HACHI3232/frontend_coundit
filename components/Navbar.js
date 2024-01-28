@@ -13,7 +13,7 @@ export function Navbar() {
         </a>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="/editor">
+        <a className="nav-link" href="article/editor">
           {" "}
           <i className="ion-compose" />
           &nbsp;New Article{" "}
