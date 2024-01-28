@@ -10,6 +10,7 @@ Conduitは、Medium.comのクローンサイトであり、RealWorldプロジェ
 ## 技術スタック
 * フロントエンド: Next.js
 * バックエンド: Ruby on Rails(APIモード)
+[バックエンドのAPI](https://github.com/HACHI3232/realworld-api)
 * データベース: sqlite3
 
 
