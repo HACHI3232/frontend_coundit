@@ -1,34 +1,61 @@
+// 必要なモジュールをインポート
 import { CustomHead } from "../../components/CustomHead";
 import { Header } from "../../components/Header";
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 
-export default function ArticleEditor({ initialArticle }) {
-  // フォームの状態を管理する state 変数を定義
-  const [title, setTitle] = useState(initialArticle ? initialArticle.title : "");
-  const [description, setDescription] = useState(initialArticle ? initialArticle.description : "");
-  const [body, setBody] = useState(initialArticle ? initialArticle.body : "");
+// 記事編集用のコンポーネント
+export default function ArticleEditor() {
+  // 状態変数を定義
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [body, setBody] = useState("");
+  const [initialArticle, setInitialArticle] = useState(null);
 
-  // ルーターを取得
+  // useRouterフックを使用してルーターインスタンスを取得
   const router = useRouter();
+  const { id } = router.query; // パスパラメータから記事IDを取得
 
-  // フォームが送信されたときの処理
+  // コンポーネントがマウントされたら記事データを取得
+  useEffect(() => {
+    // 記事データを取得する非同期関数
+    const fetchArticle = async () => {
+      if (id) {
+        try {
+          const { data } = await axios.get(`http://localhost:3000/articles/${id}`);
+          setTitle(data.title);
+          setDescription(data.description);
+          setBody(data.body);
+          setInitialArticle(data);
+        } catch (error) {
+          console.error("記事の取得に失敗しました", error);
+        }
+      }
+    };
+
+    fetchArticle();
+  }, [id]); // idの値が変わるたびに効果を再実行
+
+  // フォーム送信時のイベントハンドラー
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // フォームの値をサーバーに送信し、記事を更新する処理を追加
-      const response = await axios.put(`http://localhost:3000/articles/${initialArticle.id}`, {
-        article: {
-          title,
-          description,
-          body,
-        },
-      });
+      // PUTリクエストを使用して記事データを更新
+      const response = await axios.put(
+        `http://localhost:3000/articles/${id}`,
+        {
+          article: {
+            title,
+            description,
+            body,
+          },
+        }
+      );
 
-      // 更新が成功したら適切なリダイレクト処理を実行
-      router.push(`/article/${initialArticle.id}`);
+      // 更新成功後、記事ページにリダイレクト
+      router.push(`/article/${id}`);
     } catch (error) {
       console.error("記事の更新に失敗しました", error);
     }
@@ -42,7 +69,7 @@ export default function ArticleEditor({ initialArticle }) {
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
             <ul className="error-messages">
-              {/* エラーメッセージを表示する場合のコード */}
+              {/* エラーメッセージを表示 */}
             </ul>
             <form onSubmit={handleSubmit}>
               <fieldset>
@@ -67,13 +94,12 @@ export default function ArticleEditor({ initialArticle }) {
                 <fieldset className="form-group">
                   <textarea
                     className="form-control"
-                    rows={8}
+                    rows="8"
                     placeholder="Write your article (in markdown)"
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                   />
                 </fieldset>
-                {/* その他のフォーム要素を追加 */}
                 <button
                   className="btn btn-lg pull-xs-right btn-primary"
                   type="submit"
